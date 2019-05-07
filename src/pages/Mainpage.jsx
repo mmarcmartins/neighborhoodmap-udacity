@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import Map from "./map";
+import Map from "../components/map/Map";
 import { LoadScript } from "@react-google-maps/api";
 import { getAddress, defaultMarkers } from "../utils/map";
+import Locations from "../components/locations/Locations";
+import "../utils/fonts";
+import "../main.scss";
 
-class App extends Component {
+class Mainpage extends Component {
   state = {
     query: "",
     markers: defaultMarkers
@@ -28,22 +31,18 @@ class App extends Component {
     const { markers } = this.state;
     return (
       <main className="mainpage">
-        <input type="text" onChange={evt => this.updateQuery(evt)} />
-        <button type="button" onClick={() => this.addMarker()}>
-          Adicionar marker
-        </button>
-        <button type="button" onClick={() => this.filterMap()}>
-          Filtrar marker
-        </button>
-
-        <LoadScript
-          id="script-loader"
-          googleMapsApiKey="AIzaSyCuu74hM4bE6U0kxIcHElcLuSi2bGuFadk">
-          <Map markers={markers} />
-        </LoadScript>
+        <div className="container">
+          <LoadScript
+            id="script-loader"
+            googleMapsApiKey="AIzaSyCuu74hM4bE6U0kxIcHElcLuSi2bGuFadk"
+          >
+            <Map markers={markers} />
+          </LoadScript>
+          <Locations locations={markers} />
+        </div>
       </main>
     );
   }
 }
 
-export default App;
+export default Mainpage;

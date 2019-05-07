@@ -2,7 +2,20 @@ h1 {
   font-size: 60px;
 }
 
-.title {
-  color: #ccc;
-  transform: translate(10px, 5px);
+body {
+  font-family: "Roboto", sans-serif;
+}
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 1230px;
+  padding: 15px 0;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

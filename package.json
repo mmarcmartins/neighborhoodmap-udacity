@@ -14,7 +14,8 @@
     "@react-google-maps/api": "^1.2.3-alpha.8",
     "autoprefixer": "^9.5.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
