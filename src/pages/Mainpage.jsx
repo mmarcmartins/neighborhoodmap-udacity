@@ -5,6 +5,7 @@ import { getAddress, defaultMarkers } from "../utils/map";
 import Locations from "../components/locations/Locations";
 import "../utils/fonts";
 import "../main.scss";
+import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 
 class Mainpage extends Component {
   state = {
@@ -39,6 +40,9 @@ class Mainpage extends Component {
             <Map markers={markers} />
           </LoadScript>
           <Locations locations={markers} />
+
+          <ActionsMenu />
+
         </div>
       </main>
     );
