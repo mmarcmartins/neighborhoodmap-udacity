@@ -19,25 +19,18 @@ const defaultMarkers = [
   }
 ];
 
-const filterResult = (results, status, google) => {
-  if (status === google.maps.GeocoderStatus.OK) {
-    console.log("Resultado encontrado");
-  } else {
-    console.log("Resultado não encontrado");
-  }
-};
-
 const getAddress = (google, address) => {
   const geoCoder = new google.maps.Geocoder();
-
-  return geoCoder.geocode(
-    {
-      address: address
-    },
-    function(results, status) {
-      console.log(results);
-    }
-  );
+  return new Promise(resolve => {
+    geoCoder.geocode(
+      {
+        address: address
+      },
+      (results, status) => {
+        resolve({ results, status });
+      }
+    );
+  });
 };
 
 export { configMaps, getAddress, defaultMarkers };

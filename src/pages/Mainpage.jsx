@@ -1,32 +1,35 @@
 import React, { Component } from "react";
 import Map from "../components/map/Map";
 import { LoadScript } from "@react-google-maps/api";
-import { getAddress, defaultMarkers } from "../utils/map";
+import { getAddress, defaultMarkers, filterResult } from "../utils/map";
 import Locations from "../components/locations/Locations";
+import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 import "../utils/fonts";
 import "../main.scss";
-import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 
 class Mainpage extends Component {
   state = {
-    query: "",
-    markers: defaultMarkers
+    markers: defaultMarkers,
+    foundMarkers: [],
+    noLocations: false
   };
 
-  updateQuery = evt => {
-    this.setState({
-      query: evt.target.value
+  addMarker = location => {
+    getAddress(google, location).then(result => {
+      if (result.status === google.maps.GeocoderStatus.OK) {
+        this.setFoundMarkers(result);
+        this.changeLocationStatus();
+      } else {
+        this.changeLocationStatus();
+      }
     });
   };
 
-  addMarker = () => {
-    console.log("clicou");
-    getAddress(google, this.state.query);
+  changeLocationStatus = () => {
+    this.setState(state => ({ noLocation: !state.noLocation }));
   };
 
-  filterMap = () => {
-    console.log("clicou");
-  };
+  filterList = () => {};
 
   render() {
     const { markers } = this.state;
@@ -41,8 +44,7 @@ class Mainpage extends Component {
           </LoadScript>
           <Locations locations={markers} />
 
-          <ActionsMenu />
-
+          <ActionsMenu markers={markers} addLocation={this.addMarker} />
         </div>
       </main>
     );

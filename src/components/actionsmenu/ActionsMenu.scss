@@ -1,7 +1,38 @@
-.form{
-    display: flex;
+.form {
+  display: flex;
+  width: 800px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.add,
+.search {
+  width: 300px;
+  label {
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  input:not([type="button"]) {
     width: 100%;
-    flex-wrap: wrap;
-    flex-basis: 50%;
-    justify-content: space-between;
+    background-color: #f1f7f8;
+    border: none;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    margin-top: 20px;
+    box-sizing: border-box;
+  }
+}
+
+.add-button {
+  width: 100px;
+  font-size: 18px;
+  border: 1px solid #000;
+  background-color: #fff;
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 20px;
 }

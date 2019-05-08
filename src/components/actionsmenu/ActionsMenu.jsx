@@ -1,45 +1,50 @@
 import React, { Component } from "react";
-
 import style from "./ActionsMenu.scss";
 
 class ActionsMenu extends Component {
-    state = {
-        add: '',
-        search: ''
-    }
-    render() {
-        return (
-            <div className={style.form}>
+  state = {
+    add: "",
+    search: ""
+  };
 
-                <div className={style.add}>
-                    <label>Adicione um local ao mapa</label>
-                    <input
-                        type="text"
-                        onChange={() => (
-                            console.log('Local')
-                        )}
-                        value={this.state.add}
-                    />
-                    <input type="button" className={style['add-button']} value="Add" />
-                </div>
+  handleChange = evt => {
+    this.setState({ [evt.target.name]: evt.target.value });
+  };
 
-                <div className={style.search}>
-                    <label>Digite para filtrar os locais
-                           <input
-                            type="text"
-                            value={this.state.search}
-                            placeholder="Filter table content by username"
-                            onChange={() => (
-                                console.log('eu ae')
-                            )}
-                        />
-                    </label>
+  render() {
+    const { add, search } = this.state;
+    return (
+      <div className={style.form}>
+        <div className={style.add}>
+          <label>Adicione um local ao mapa</label>
+          <input
+            type="text"
+            value={this.state.add}
+            name="add"
+            onChange={evt => this.handleChange(evt)}
+          />
+          <input
+            type="button"
+            className={style["add-button"]}
+            onClick={() => this.props.addLocation(add)}
+            value="Adicionar"
+          />
+        </div>
 
-                </div>
-
-            </div>
-        );
-    }
+        <div className={style.search}>
+          <label>
+            Digite para filtrar os locais
+            <input
+              type="text"
+              name="search"
+              value={this.state.search}
+              onChange={evt => this.handleChange(evt)}
+            />
+          </label>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default ActionsMenu;
