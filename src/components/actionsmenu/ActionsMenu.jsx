@@ -1,14 +1,40 @@
 import React, { Component } from "react";
 import style from "./ActionsMenu.scss";
+import { getAddress } from "../../utils/map";
 
 class ActionsMenu extends Component {
   state = {
     add: "",
-    search: ""
+    search: "",
+    noLocation: false,
+    repeatable: false
   };
 
   handleChange = evt => {
     this.setState({ [evt.target.name]: evt.target.value });
+  };
+
+  addMarker = location => {
+    const google = window.google; //Const created by @react-google-maps/api on window object
+    getAddress(google, location).then(result => {
+      if (result.status === google.maps.GeocoderStatus.OK) {
+        const resultAddress = result.results[0];
+        if (!this.isNotRepeated(resultAddress)) {
+          this.props.addLocation(resultAddress);
+          this.setState({ noLocation: false, add: "" });
+        } else {
+          this.setState({ repeatable: true });
+        }
+      } else {
+        this.setState({ noLocation: true });
+      }
+    });
+  };
+
+  isNotRepeated = local => {
+    return this.props.markers.some(
+      l => l.name.toLowerCase() === local.formatted_address.toLowerCase()
+    );
   };
 
   render() {
@@ -26,7 +52,7 @@ class ActionsMenu extends Component {
           <input
             type="button"
             className={style["add-button"]}
-            onClick={() => this.props.addLocation(add)}
+            onClick={() => this.addMarker(add)}
             value="Adicionar"
           />
         </div>
