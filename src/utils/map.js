@@ -15,6 +15,11 @@ const defaultMarkers = [
     coords: {
       lat: 37.772,
       lng: -122.214
+    },
+    modal: {
+      isOpened: false,
+      description: '',
+      photo: ''
     }
   }
 ];
@@ -32,5 +37,6 @@ const getAddress = (google, address) => {
     );
   });
 };
+
 
 export { configMaps, getAddress, defaultMarkers };

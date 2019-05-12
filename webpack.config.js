@@ -2,8 +2,10 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+require('babel-polyfill');
 const isDevelopment = process.env.NODE_ENV !== "production";
 module.exports = {
+  entry: ['babel-polyfill', './src/index.js'],
   mode: isDevelopment ? "development" : "production",
   module: {
     rules: [
