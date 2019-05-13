@@ -39,9 +39,11 @@ module.exports = {
               sourceMap: isDevelopment
             }
           },
-          "postcss-loader"
+          "postcss-loader",
+
         ]
       },
+
       {
         test: /\.html$/,
         use: [

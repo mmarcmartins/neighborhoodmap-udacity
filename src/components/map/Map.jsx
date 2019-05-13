@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import { configMaps } from "../../utils/map";
-import "./Map.scss";
+import map from "./Map.scss";
+import markercss from "./Marker.scss";
+
 
 class Map extends Component {
   render() {
@@ -16,6 +18,7 @@ class Map extends Component {
       >
 
         {markers.length > 0 &&
+
           markers.map((marker, index) => (
             <Marker key={index} position={marker.coords}
               onClick={() => {
@@ -28,9 +31,11 @@ class Map extends Component {
                   position={marker.coords}
                   onCloseClick={() => this.props.changeStateModal(marker, false)}
                 >
-                  <h1>{marker.name}</h1>
-                  <img alt={`A picture of ${marker.name}`} src={marker.photo} />
-                  <p>{marker.desc}</p>
+                  <div className={map.infowindow}>
+                    <h1 className={markercss.title}>{marker.modal.photo}</h1>
+                    <img className={markercss.img} alt={`A picture of ${marker.name}`} src={marker.modal.photo} />
+                    <p className={markercss.link}>Para saber mais detalhes sobre o local clique <a rel="noopener noreferrer" target="_blank" href={marker.modal.link}>aqui</a></p>
+                  </div>
                 </InfoWindow>
               )}
 

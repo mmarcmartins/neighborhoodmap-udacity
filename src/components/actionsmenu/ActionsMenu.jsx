@@ -62,7 +62,7 @@ class ActionsMenu extends Component {
 
     return (
       <div>
-        <Locations locations={filterMarkers} />
+        <Locations handleLocationClick={this.props.handleLocationClick} locations={filterMarkers} />
         <div className={style.form}>
           <div className={style.add}>
             <label>Adicione um local ao mapa</label>

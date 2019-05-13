@@ -16,11 +16,26 @@ class Mainpage extends Component {
   changeStateModal = (marker, isOpened) => {
     marker.modal.isOpened = isOpened;
     const allMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
-    this.setState({ markers: allMarkers.concat([marker]) })
+    this.setState({ markers: allMarkers.concat([marker]).sort() })
   }
+  handleLocationClick = marker => {
+    const newMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
+    marker.modal.isOpened = true;
+    this.setState(
+      {
+        markers: newMarkers.concat([marker]).sort(),
+        mapCenter: marker.coords
+      }
+    )
+  };
 
-  insertMarker = marker => {
-    const infoWindow = this.infoWindowInformation();
+  insertMarker = async (marker) => {
+
+    const infoWindow = await getAllData({
+      lat: marker.geometry.location.lat(),
+      lng: marker.geometry.location.lng()
+    });
+
     const newMarker = {
       name: marker.formatted_address,
       coords: {
@@ -28,24 +43,20 @@ class Mainpage extends Component {
         lng: marker.geometry.location.lng()
       },
       modal: {
-        isOpened: false,
-        description: '',
-        photo: ''
+        ...infoWindow
       }
+
     };
+
     this.setState(state => ({
-      markers: state.markers.concat([newMarker]),
+      markers: state.markers.concat([newMarker]).sort(),
       mapCenter: newMarker.coords
     }));
   };
 
-  infoWindowInformation = marker => {
-    getAllData(marker);
-  }
-
   render() {
-    const { markers, mapCenter } = this.state;
 
+    const { markers, mapCenter } = this.state;
 
     return (
       <main className="mainpage">
@@ -57,7 +68,11 @@ class Mainpage extends Component {
             <Map centered={mapCenter} changeStateModal={this.changeStateModal} markers={markers} />
           </LoadScript>
 
-          <ActionsMenu markers={markers} handleSearch={this.handleSearch} addLocation={this.insertMarker} />
+          <ActionsMenu
+            markers={markers}
+            handleSearch={this.handleSearch}
+            addLocation={this.insertMarker}
+            handleLocationClick={this.handleLocationClick} />
         </div>
       </main>
     );

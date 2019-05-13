@@ -4,21 +4,21 @@ const configMaps = {
     width: "500px"
   },
   mapCenter: {
-    lat: -3.745,
-    lng: -38.523
+    lat: -23.584027,
+    lng: -46.642025
   }
 };
 
 const defaultMarkers = [
   {
-    name: "Americana",
+    name: "São Paulo",
     coords: {
-      lat: 37.772,
-      lng: -122.214
+      lat: -23.584027,
+      lng: -46.642025
     },
     modal: {
       isOpened: false,
-      description: '',
+      link: '',
       photo: ''
     }
   }
