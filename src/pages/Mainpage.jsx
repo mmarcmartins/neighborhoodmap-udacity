@@ -6,7 +6,7 @@ import { getAllData } from "../api/foursquare";
 import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 import "../utils/fonts";
 import "../main.scss";
-import { sortArrayLocation } from "../utils/globals";
+import { sortArrayLocation, BLUE_ICON, RED_ICON } from "../utils/globals";
 
 class Mainpage extends Component {
   state = {
@@ -14,8 +14,13 @@ class Mainpage extends Component {
     mapCenter: configMaps.mapCenter
   };
 
+  changeMarkerIcon = isOpened => isOpened ?
+    BLUE_ICON :
+    RED_ICON;
+
   changeStateModal = (marker, isOpened) => {
     marker.modal.isOpened = isOpened;
+    marker.icon = this.changeMarkerIcon(isOpened);
     const allMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
     this.setState({
       markers: allMarkers
@@ -23,9 +28,11 @@ class Mainpage extends Component {
         .sort((a, b) => sortArrayLocation(a, b))
     });
   };
+
   handleLocationClick = marker => {
     const newMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
     marker.modal.isOpened = true;
+    marker.icon = this.changeMarkerIcon(marker.modal.isOpened);
     this.setState({
       markers: newMarkers
         .concat([marker])
@@ -42,12 +49,17 @@ class Mainpage extends Component {
 
     const newMarker = {
       name: marker.formatted_address,
+      icon: RED_ICON,
       coords: {
         lat: marker.geometry.location.lat(),
         lng: marker.geometry.location.lng()
       },
       modal: {
-        ...infoWindow
+        ...infoWindow,
+        coords: {
+          lat: marker.geometry.location.lat() + 0.5,
+          lng: marker.geometry.location.lng()
+        }
       }
     };
 

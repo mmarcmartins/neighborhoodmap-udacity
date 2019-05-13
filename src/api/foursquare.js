@@ -11,7 +11,7 @@ export async function getAllData(marker) {
   const placeInfo = {
     isOpened: false,
     link: await getLink(id),
-    photo: await getPhoto(id)
+    photo: await getPhoto(id),
   };
   return placeInfo;
 }
@@ -34,6 +34,6 @@ export async function getPhoto(id) {
     const firstPhotoUrl = `${firstPhoto.prefix}300x300${firstPhoto.suffix}`;
     return firstPhotoUrl;
   } else {
-    return "placeholder";
+    return "";
   }
 }

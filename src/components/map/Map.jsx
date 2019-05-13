@@ -19,24 +19,27 @@ class Map extends Component {
             <Marker
               key={index}
               position={marker.coords}
+              icon={marker.icon}
               onClick={() => {
                 this.props.changeStateModal(marker, true);
               }}
             >
               {marker.modal.isOpened && (
                 <InfoWindow
-                  position={marker.coords}
+                  position={marker.modal.coords}
                   onCloseClick={() =>
                     this.props.changeStateModal(marker, false)
                   }
                 >
                   <div className={map.infowindow}>
                     <h1 className={markercss.title}>{marker.name}</h1>
-                    <img
-                      className={markercss.img}
-                      alt={`A picture of ${marker.name}`}
-                      src={marker.modal.photo}
-                    />
+                    {marker.modal.photo && (
+                      <img
+                        className={markercss.img}
+                        alt={`A picture of ${marker.name}`}
+                        src={marker.modal.photo}
+                      />
+                    )}
                     <p className={markercss.link}>
                       Para saber mais detalhes sobre o local clique{" "}
                       <a

@@ -1,3 +1,6 @@
+export const BLUE_ICON = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+export const RED_ICON = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+
 export const compose = (...fns) => value =>
   fns.reduceRight((previousValue, fn) => fn(previousValue), value);
 
