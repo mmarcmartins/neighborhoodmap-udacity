@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import style from "./ActionsMenu.scss";
 import { getAddress } from "../../utils/map";
 import Locations from "../locations/Locations";
-import escapeRegExp from 'escape-string-regexp'
+import escapeRegExp from "escape-string-regexp";
 class ActionsMenu extends Component {
   state = {
     add: "",
     search: "",
-    query: "",
+    query: ""
     //noLocation: false,
     //repeatable: false
   };
@@ -18,8 +18,10 @@ class ActionsMenu extends Component {
 
   addMarker = location => {
     const google = window.google; //Const created by @react-google-maps/api on window object
-    if (location.length == 0)
+    if (location.length === 0) {
+      alert("Favor inserir uma localização");
       return;
+    }
 
     getAddress(google, location).then(result => {
       if (result.status === google.maps.GeocoderStatus.OK) {
@@ -47,14 +49,14 @@ class ActionsMenu extends Component {
   handleSearch = query => {
     this.setState({
       query: query.trim()
-    })
-  }
+    });
+  };
   render() {
     const { add } = this.state;
 
     let filterMarkers;
     if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), 'i')
+      const match = new RegExp(escapeRegExp(this.state.query), "i");
       filterMarkers = this.props.markers.filter(c => match.test(c.name));
     } else {
       filterMarkers = this.props.markers;
@@ -62,7 +64,10 @@ class ActionsMenu extends Component {
 
     return (
       <div>
-        <Locations handleLocationClick={this.props.handleLocationClick} locations={filterMarkers} />
+        <Locations
+          handleLocationClick={this.props.handleLocationClick}
+          locations={filterMarkers}
+        />
         <div className={style.form}>
           <div className={style.add}>
             <label>Adicione um local ao mapa</label>
@@ -83,13 +88,13 @@ class ActionsMenu extends Component {
           <div className={style.search}>
             <label>
               Digite para filtrar os locais
-            <input
+              <input
                 type="text"
                 name="search"
                 value={this.state.search}
                 onChange={evt => {
-                  this.handleChange(evt)
-                  this.handleSearch(evt.target.value)
+                  this.handleChange(evt);
+                  this.handleSearch(evt.target.value);
                 }}
               />
             </label>

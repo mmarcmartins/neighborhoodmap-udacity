@@ -6,6 +6,7 @@ import { getAllData } from "../api/foursquare";
 import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 import "../utils/fonts";
 import "../main.scss";
+import { sortArrayLocation } from "../utils/globals";
 
 class Mainpage extends Component {
   state = {
@@ -16,21 +17,24 @@ class Mainpage extends Component {
   changeStateModal = (marker, isOpened) => {
     marker.modal.isOpened = isOpened;
     const allMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
-    this.setState({ markers: allMarkers.concat([marker]).sort() })
-  }
+    this.setState({
+      markers: allMarkers
+        .concat([marker])
+        .sort((a, b) => sortArrayLocation(a, b))
+    });
+  };
   handleLocationClick = marker => {
     const newMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
     marker.modal.isOpened = true;
-    this.setState(
-      {
-        markers: newMarkers.concat([marker]).sort(),
-        mapCenter: marker.coords
-      }
-    )
+    this.setState({
+      markers: newMarkers
+        .concat([marker])
+        .sort((a, b) => sortArrayLocation(a, b)),
+      mapCenter: marker.coords
+    });
   };
 
-  insertMarker = async (marker) => {
-
+  insertMarker = async marker => {
     const infoWindow = await getAllData({
       lat: marker.geometry.location.lat(),
       lng: marker.geometry.location.lng()
@@ -45,17 +49,17 @@ class Mainpage extends Component {
       modal: {
         ...infoWindow
       }
-
     };
 
     this.setState(state => ({
-      markers: state.markers.concat([newMarker]).sort(),
+      markers: state.markers
+        .concat([newMarker])
+        .sort((a, b) => sortArrayLocation(a, b)),
       mapCenter: newMarker.coords
     }));
   };
 
   render() {
-
     const { markers, mapCenter } = this.state;
 
     return (
@@ -65,14 +69,19 @@ class Mainpage extends Component {
             id="script-loader"
             googleMapsApiKey="AIzaSyCuu74hM4bE6U0kxIcHElcLuSi2bGuFadk"
           >
-            <Map centered={mapCenter} changeStateModal={this.changeStateModal} markers={markers} />
+            <Map
+              centered={mapCenter}
+              changeStateModal={this.changeStateModal}
+              markers={markers}
+            />
           </LoadScript>
 
           <ActionsMenu
             markers={markers}
             handleSearch={this.handleSearch}
             addLocation={this.insertMarker}
-            handleLocationClick={this.handleLocationClick} />
+            handleLocationClick={this.handleLocationClick}
+          />
         </div>
       </main>
     );
