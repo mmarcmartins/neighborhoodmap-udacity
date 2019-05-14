@@ -13,10 +13,19 @@ body {
   padding: 15px 0;
   box-sizing: border-box;
   margin: 0 auto;
+  max-width: 100%;
 }
-
+.main-title {
+  text-align: center;
+}
 ul {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+@media only screen and (max-width: 767px) {
+  h1 {
+    font-size: 30px;
+  }
 }

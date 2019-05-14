@@ -3,13 +3,14 @@ import style from "./ActionsMenu.scss";
 import { getAddress } from "../../utils/map";
 import Locations from "../locations/Locations";
 import escapeRegExp from "escape-string-regexp";
+import Loader from "../Loader/Loader";
+
 class ActionsMenu extends Component {
   state = {
     add: "",
     search: "",
-    query: ""
-    //noLocation: false,
-    //repeatable: false
+    query: "",
+    isLoading: false
   };
 
   handleChange = evt => {
@@ -22,20 +23,23 @@ class ActionsMenu extends Component {
       alert("Favor inserir uma localização");
       return;
     }
-
+    this.setState({ isLoading: true });
     getAddress(google, location).then(result => {
       if (result.status === google.maps.GeocoderStatus.OK) {
         const resultAddress = result.results[0];
         if (!this.isNotRepeated(resultAddress)) {
-          this.props.addLocation(resultAddress);
-          this.setState({ noLocation: false, add: "" });
+          this.props.addLocation(resultAddress).then(_ => {
+            this.setState({ noLocation: false, add: "" });
+            this.setState({ isLoading: false });
+            alert("Local inserido com sucesso");
+          });
         } else {
-          //this.setState({ repeatable: true });
+          this.setState({ isLoading: false });
           alert("Local repetido");
         }
       } else {
+        this.setState({ isLoading: false });
         alert("Local não encontrado");
-        //this.setState({ noLocation: true });
       }
     });
   };
@@ -70,23 +74,26 @@ class ActionsMenu extends Component {
         />
         <div className={style.form}>
           <div className={style.add}>
-            <label>Adicione um local ao mapa</label>
+            <label id="addlocal">Insira um local que deseja adicionar</label>
             <input
               type="text"
               value={this.state.add}
               name="add"
               onChange={evt => this.handleChange(evt)}
+              aria-labelledby="addlocal"
             />
             <input
               type="button"
               className={style["add-button"]}
               onClick={() => this.addMarker(add)}
               value="Adicionar"
+              aria-label="Clique para adicionar o local"
             />
+            {this.state.isLoading && <Loader />}
           </div>
 
           <div className={style.search}>
-            <label>
+            <label id="searchbtn">
               Digite para filtrar os locais
               <input
                 type="text"
@@ -96,6 +103,7 @@ class ActionsMenu extends Component {
                   this.handleChange(evt);
                   this.handleSearch(evt.target.value);
                 }}
+                aria-labelledby="searchbtn"
               />
             </label>
           </div>
