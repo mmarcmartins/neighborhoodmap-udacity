@@ -1,7 +1,7 @@
 # Neiborhood map project
 
 This is a project made for the completion of the nanodegree udacity front end developer - advanced course.
-It aims to consummate the google maps API with a foursquare API. The project is to demarcate regions of interest of the user and to bring some data about the place, to see the operation of the project online click [here](https://5cdc1d71e7ede0cef8ac1d13--confident-yalow-21bab5.netlify.com/).
+It aims to consummate the google maps API with a foursquare API. The project is to demarcate regions of interest of the user and to bring some data about the place, to see the operation of the project online click [here](https://confident-yalow-21bab5.netlify.com/).
 
 ## How to run on my machine ?
 
@@ -27,4 +27,4 @@ This project wasn't bootstraped with create-react-app this means that all config
 
 ## The project is avaliable on netlify
 
-Click [here](https://5cdc1d71e7ede0cef8ac1d13--confident-yalow-21bab5.netlify.com/).
+Click [here](https://confident-yalow-21bab5.netlify.com/).
