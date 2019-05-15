@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import style from "./ActionsMenu.scss";
 import { getAddress } from "../../utils/map";
-import Locations from "../locations/Locations";
-import escapeRegExp from "escape-string-regexp";
+
 import Loader from "../Loader/loader";
 
 class ActionsMenu extends Component {
   state = {
     add: "",
     search: "",
-    query: "",
     isLoading: false
   };
 
@@ -24,24 +22,29 @@ class ActionsMenu extends Component {
       return;
     }
     this.setState({ isLoading: true });
-    getAddress(google, location).then(result => {
-      if (result.status === google.maps.GeocoderStatus.OK) {
-        const resultAddress = result.results[0];
-        if (!this.isNotRepeated(resultAddress)) {
-          this.props.addLocation(resultAddress).then(_ => {
-            this.setState({ noLocation: false, add: "" });
+    getAddress(google, location)
+      .then(result => {
+        if (result.status === google.maps.GeocoderStatus.OK) {
+          const resultAddress = result.results[0];
+          if (!this.isNotRepeated(resultAddress)) {
+            this.props.addLocation(resultAddress).then(_ => {
+              this.setState({ noLocation: false, add: "" });
+              this.setState({ isLoading: false });
+              alert("Local inserido com sucesso");
+            });
+          } else {
             this.setState({ isLoading: false });
-            alert("Local inserido com sucesso");
-          });
+            alert("Local repetido");
+          }
         } else {
           this.setState({ isLoading: false });
-          alert("Local repetido");
+          alert("Local não encontrado");
         }
-      } else {
+      })
+      .catch(e => {
         this.setState({ isLoading: false });
-        alert("Local não encontrado");
-      }
-    });
+        alert("Um erro ocorreu durante a requisição (MAPS - GETADDRESS): " + e);
+      });
   };
 
   isNotRepeated = local => {
@@ -50,28 +53,11 @@ class ActionsMenu extends Component {
     );
   };
 
-  handleSearch = query => {
-    this.setState({
-      query: query.trim()
-    });
-  };
   render() {
     const { add } = this.state;
 
-    let filterMarkers;
-    if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), "i");
-      filterMarkers = this.props.markers.filter(c => match.test(c.name));
-    } else {
-      filterMarkers = this.props.markers;
-    }
-
     return (
       <div>
-        <Locations
-          handleLocationClick={this.props.handleLocationClick}
-          locations={filterMarkers}
-        />
         <div className={style.form}>
           <div className={style.add}>
             <label id="addlocal">Insira um local que deseja adicionar</label>
@@ -101,7 +87,7 @@ class ActionsMenu extends Component {
                 value={this.state.search}
                 onChange={evt => {
                   this.handleChange(evt);
-                  this.handleSearch(evt.target.value);
+                  this.props.handleSearch(evt.target.value);
                 }}
                 aria-labelledby="searchbtn"
               />

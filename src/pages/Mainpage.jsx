@@ -7,19 +7,31 @@ import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 import "../utils/fonts";
 import style from "../main.scss";
 import { sortArrayLocation, BLUE_ICON, RED_ICON } from "../utils/globals";
+import Locations from "../components/locations/Locations";
+import escapeRegExp from "escape-string-regexp";
 
 class Mainpage extends Component {
   state = {
-    markers: defaultMarkers,
-    mapCenter: configMaps.mapCenter
+    markers: defaultMarkers.sort((a, b) => sortArrayLocation(a, b)),
+    mapCenter: configMaps.mapCenter,
+    query: ""
   };
 
   changeMarkerIcon = isOpened => (isOpened ? BLUE_ICON : RED_ICON);
+  handleSearch = query => {
+    this.setState({
+      query: query.trim()
+    });
+  };
 
   changeStateModal = (marker, isOpened) => {
     marker.modal.isOpened = isOpened;
     marker.icon = this.changeMarkerIcon(isOpened);
     const allMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
+    allMarkers.forEach(mk => {
+      mk.modal.isOpened = false;
+      mk.icon = RED_ICON;
+    });
     this.setState({
       markers: allMarkers
         .concat([marker])
@@ -28,8 +40,11 @@ class Mainpage extends Component {
   };
 
   handleLocationClick = marker => {
-    console.log(defaultMarkers);
     const newMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
+    newMarkers.forEach(mk => {
+      mk.modal.isOpened = false;
+      mk.icon = RED_ICON;
+    });
     marker.modal.isOpened = true;
     marker.icon = this.changeMarkerIcon(marker.modal.isOpened);
     this.setState({
@@ -65,7 +80,6 @@ class Mainpage extends Component {
           .sort((a, b) => sortArrayLocation(a, b)),
         mapCenter: newMarker.coords
       }));
-      console.log(this.state);
       resolve();
     });
   };
@@ -80,6 +94,13 @@ class Mainpage extends Component {
   render() {
     const { markers, mapCenter } = this.state;
 
+    let filterMarkers;
+    if (this.state.query) {
+      const match = new RegExp(escapeRegExp(this.state.query), "i");
+      filterMarkers = this.state.markers.filter(c => match.test(c.name));
+    } else {
+      filterMarkers = this.state.markers;
+    }
     return (
       <main className="mainpage">
         <div className={style.container}>
@@ -91,10 +112,13 @@ class Mainpage extends Component {
             <Map
               centered={mapCenter}
               changeStateModal={this.changeStateModal}
-              markers={markers}
+              markers={filterMarkers}
             />
           </LoadScript>
-
+          <Locations
+            handleLocationClick={this.handleLocationClick}
+            locations={filterMarkers}
+          />
           <ActionsMenu
             markers={markers}
             handleSearch={this.handleSearch}
