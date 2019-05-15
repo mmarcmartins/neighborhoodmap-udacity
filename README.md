@@ -13,6 +13,8 @@ You need NPM installed on your machine, if you don't, see this tutorial:<br>
 
 With NPM installed and with the folder "neighborhoodmap-udacity" open the terminal on this folder and type "npm install", wait the install finish, then on the terminal enter "npm start", the browser will popup a window on localhost, click on the page and enjoy the APP.
 
+NOTE: REPLACE THE API KEY ON SRC/MAINPAGE.JSX
+
 ## How to use ?
 
 After opened the project, you'll see a map with some pre-made markers, on the "Insira um local que deseja adicionar" on the input above, you should insert a location and click "Adicionar", doing this, will add a new marker on the map and if you click on this marker you'll see the name of the place, a picture (if have one) and you can click on "aqui" to know more about this place.
