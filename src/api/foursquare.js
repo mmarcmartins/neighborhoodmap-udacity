@@ -16,7 +16,7 @@ export async function getAllData(marker) {
     return placeInfo;
   } catch (err) {
     alert(
-      "Um erro ocorreu durante a requisição: (FOURSQUARE - GETALLDATA) " + e
+      "Um erro ocorreu durante a requisição: (FOURSQUARE - GETALLDATA) " + err
     );
   }
 }
