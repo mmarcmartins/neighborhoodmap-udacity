@@ -3,7 +3,7 @@ import style from "./ActionsMenu.scss";
 import { getAddress } from "../../utils/map";
 import Locations from "../locations/Locations";
 import escapeRegExp from "escape-string-regexp";
-import Loader from "../Loader/Loader";
+import Loader from "../Loader/loader";
 
 class ActionsMenu extends Component {
   state = {
