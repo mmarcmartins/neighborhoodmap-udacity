@@ -5,7 +5,7 @@ import { defaultMarkers, configMaps } from "../utils/map";
 import { getAllData } from "../api/foursquare";
 import ActionsMenu from "../components/actionsmenu/ActionsMenu";
 import "../utils/fonts";
-import "../main.scss";
+import style from "../main.scss";
 import { sortArrayLocation, BLUE_ICON, RED_ICON } from "../utils/globals";
 
 class Mainpage extends Component {
@@ -82,7 +82,7 @@ class Mainpage extends Component {
 
     return (
       <main className="mainpage">
-        <div className="container">
+        <div className={style.container}>
           <h1 className="main-title">Neighborhood Map</h1>
           <LoadScript
             id="script-loader"

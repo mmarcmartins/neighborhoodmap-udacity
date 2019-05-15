@@ -6,18 +6,6 @@ const OfflinePlugin = require("offline-plugin");
 require("babel-polyfill");
 const isDevelopment = process.env.NODE_ENV !== "production";
 module.exports = {
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: "styles",
-          test: /\.scss$/,
-          chunks: "all",
-          enforce: true
-        }
-      }
-    }
-  },
   entry: ["babel-polyfill", "./src/index.js"],
   mode: isDevelopment ? "development" : "production",
   module: {
@@ -40,7 +28,7 @@ module.exports = {
               modules: true,
               localIdentName: isDevelopment
                 ? "[local]"
-                : "[name]__[local]___[hash:base64:5]",
+                : "[name]_[hash:base64:6]",
               camelCase: true,
               sourceMap: isDevelopment,
               importLoaders: 1
@@ -76,7 +64,7 @@ module.exports = {
       filename: "./index.html"
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].scss",
+      filename: "[name].css",
       chunkFilename: "[id].css"
     }),
     new OptimizeCSSAssetsPlugin({}),

@@ -9,7 +9,7 @@ class Map extends Component {
     const { markers, centered } = this.props;
     return (
       <GoogleMap
-        id="neighborhoodmap"
+        id={map.neighborhoodmap}
         mapContainerStyle={configMaps.mapStyle}
         zoom={4}
         center={centered}
