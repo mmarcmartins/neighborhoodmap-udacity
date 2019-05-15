@@ -11,7 +11,7 @@ class Map extends Component {
       <GoogleMap
         id="neighborhoodmap"
         mapContainerStyle={configMaps.mapStyle}
-        zoom={7}
+        zoom={4}
         center={centered}
       >
         {markers.length > 0 &&

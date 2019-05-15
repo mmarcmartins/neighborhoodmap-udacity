@@ -2,10 +2,23 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-require('babel-polyfill');
+const OfflinePlugin = require("offline-plugin");
+require("babel-polyfill");
 const isDevelopment = process.env.NODE_ENV !== "production";
 module.exports = {
-  entry: ['babel-polyfill', './src/index.js'],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: "styles",
+          test: /\.scss$/,
+          chunks: "all",
+          enforce: true
+        }
+      }
+    }
+  },
+  entry: ["babel-polyfill", "./src/index.js"],
   mode: isDevelopment ? "development" : "production",
   module: {
     rules: [
@@ -39,8 +52,7 @@ module.exports = {
               sourceMap: isDevelopment
             }
           },
-          "postcss-loader",
-
+          "postcss-loader"
         ]
       },
 
@@ -64,10 +76,11 @@ module.exports = {
       filename: "./index.html"
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "[name].scss",
       chunkFilename: "[id].css"
     }),
     new OptimizeCSSAssetsPlugin({}),
-    new CleanWebpackPlugin({})
+    new CleanWebpackPlugin({}),
+    new OfflinePlugin()
   ]
 };

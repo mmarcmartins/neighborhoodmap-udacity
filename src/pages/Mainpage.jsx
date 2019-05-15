@@ -28,6 +28,7 @@ class Mainpage extends Component {
   };
 
   handleLocationClick = marker => {
+    console.log(defaultMarkers);
     const newMarkers = this.state.markers.filter(mk => mk.name !== marker.name);
     marker.modal.isOpened = true;
     marker.icon = this.changeMarkerIcon(marker.modal.isOpened);
